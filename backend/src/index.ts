@@ -1,19 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
 import "./Utils/connection";
 import user from "./Routers/user.routes";
+import movie from "./Routers/movie.routes";
 import CustomError from "./Utils/CustomError";
 import bodyParser from "body-parser";
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
 app.use(bodyParser.json());
 
 const port = 3000;
 
 app.use("/api/v1/user", user);
+app.use("/api/v1/movie", movie);
 
 app.use(
   "/",
