@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const seatCategorySchema = new Schema(
+export const seatCategorySchema = new Schema(
   {
     name: {
       type: String,
