@@ -1,8 +1,11 @@
 import express, { Request, Response } from "express";
 import asyncHandler from "../Utils/asyncHandler";
-import cinema from "../Controllers/cinema.controller";
+import show from "../Controllers/show.controller";
 const router = express.Router();
 
-router.post("/create", asyncHandler(cinema.createCinema));
+router.post(
+  "/:movieId/:cinemaId/:screenId/create",
+  asyncHandler(show.createShow)
+);
 
 export default router;

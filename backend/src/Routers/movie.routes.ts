@@ -5,5 +5,5 @@ import movie from "../Controllers/movie.controller";
 const router = express.Router();
 
 router.post("/create", asyncHandler(movie.createMovie));
-
+router.get("/available/:city", asyncHandler(movie.getAvailableMoviesByCity));
 export default router;

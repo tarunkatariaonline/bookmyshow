@@ -8,6 +8,8 @@ require("./Utils/connection");
 const user_routes_1 = __importDefault(require("./Routers/user.routes"));
 const movie_routes_1 = __importDefault(require("./Routers/movie.routes"));
 const cinema_routes_1 = __importDefault(require("./Routers/cinema.routes"));
+const screen_routes_1 = __importDefault(require("./Routers/screen.routes"));
+const show_routes_1 = __importDefault(require("./Routers/show.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -18,6 +20,8 @@ const port = 3000;
 app.use("/api/v1/user", user_routes_1.default);
 app.use("/api/v1/movie", movie_routes_1.default);
 app.use("/api/v1/cinema", cinema_routes_1.default);
+app.use("/api/v1/screen", screen_routes_1.default);
+app.use("/api/v1/show", show_routes_1.default);
 app.use("/", (err, req, res, next) => {
     res.status(err.statusCode || 500).send({
         message: err.message || "Server Error",

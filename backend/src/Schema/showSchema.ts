@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-import { seatCategorySchema } from "./cinemaSchema";
+import { seatCategorySchema } from "./screenSchema";
 const showSchema = new Schema(
   {
     movie: {

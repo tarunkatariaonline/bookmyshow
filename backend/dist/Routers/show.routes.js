@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const asyncHandler_1 = __importDefault(require("../Utils/asyncHandler"));
-const cinema_controller_1 = __importDefault(require("../Controllers/cinema.controller"));
+const show_controller_1 = __importDefault(require("../Controllers/show.controller"));
 const router = express_1.default.Router();
-router.post("/create", (0, asyncHandler_1.default)(cinema_controller_1.default.createCinema));
+router.post("/:movieId/:cinemaId/:screenId/create", (0, asyncHandler_1.default)(show_controller_1.default.createShow));
 exports.default = router;
-//# sourceMappingURL=cinema.routes.js.map
+//# sourceMappingURL=show.routes.js.map

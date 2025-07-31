@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const mongoose_2 = require("mongoose");
-const cinemaSchema_1 = require("./cinemaSchema");
+const screenSchema_1 = require("./screenSchema");
 const showSchema = new mongoose_2.Schema({
     movie: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -31,7 +31,7 @@ const showSchema = new mongoose_2.Schema({
         required: true,
     },
     seatLayout: {
-        type: [cinemaSchema_1.seatCategorySchema],
+        type: [screenSchema_1.seatCategorySchema],
         required: true,
     },
     bookedSeats: {

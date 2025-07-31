@@ -3,6 +3,9 @@ import "./Utils/connection";
 import user from "./Routers/user.routes";
 import movie from "./Routers/movie.routes";
 import cinema from "./Routers/cinema.routes";
+import screen from "./Routers/screen.routes";
+import show from "./Routers/show.routes";
+
 import CustomError from "./Utils/CustomError";
 import bodyParser from "body-parser";
 const app = express();
@@ -16,6 +19,8 @@ const port = 3000;
 app.use("/api/v1/user", user);
 app.use("/api/v1/movie", movie);
 app.use("/api/v1/cinema", cinema);
+app.use("/api/v1/screen", screen);
+app.use("/api/v1/show", show);
 
 app.use(
   "/",
