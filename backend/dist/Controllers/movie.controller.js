@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const movieSchema_1 = __importDefault(require("../Schema/movieSchema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
+const showSchema_1 = __importDefault(require("../Schema/showSchema"));
+const helpers_1 = require("../Utils/helpers");
 const createMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, duration, genre, language, releaseDate, certificate, posterUrl, trailerUrl, status, cast, director, ratings, } = req.body;
     if (!title ||
@@ -44,5 +46,106 @@ const createMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         message: "Movie created successfully",
     });
 });
-exports.default = { createMovie };
+const getAvailableMoviesByCity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const city = req.params.city;
+    if (!city) {
+        throw new CustomError_1.default("City parameter is required", 400);
+    }
+    const now = new Date();
+    const shows = yield showSchema_1.default.find()
+        .populate("movie")
+        .populate({
+        path: "cinema",
+        select: "location",
+    })
+        .select("movie cinema date time")
+        .lean();
+    const filteredShows = shows.filter((show) => {
+        var _a, _b, _c;
+        const showCity = (_c = (_b = (_a = show.cinema) === null || _a === void 0 ? void 0 : _a.location) === null || _b === void 0 ? void 0 : _b.city) === null || _c === void 0 ? void 0 : _c.toLowerCase();
+        const showDateTime = (0, helpers_1.parseDateTime)(show.date, show.time);
+        return showCity === city.toLowerCase() && showDateTime > now;
+    });
+    const uniqueMoviesMap = new Map();
+    filteredShows.forEach((show) => {
+        const movie = show.movie;
+        if (!uniqueMoviesMap.has(movie._id.toString())) {
+            uniqueMoviesMap.set(movie._id.toString(), movie);
+        }
+    });
+    const uniqueMovies = Array.from(uniqueMoviesMap.values());
+    res.status(200).json({
+        city,
+        movies: uniqueMovies,
+    });
+});
+const getUpcomingDatesForMovies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
+    const { city, movieId } = req.params;
+    if (!city || !movieId) {
+        throw new CustomError_1.default("City and Movie ID are required", 400);
+    }
+    const movie = yield movieSchema_1.default.findById(movieId).lean();
+    if (!movie) {
+        throw new CustomError_1.default("Movie not found", 404);
+    }
+    const shows = yield showSchema_1.default.find({ movie: movieId })
+        .populate({
+        path: "cinema",
+        select: "location",
+    })
+        .select("date time cinema")
+        .lean();
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + 7);
+    const uniqueDates = new Set();
+    for (const show of shows) {
+        const showCity = (_c = (_b = (_a = show.cinema) === null || _a === void 0 ? void 0 : _a.location) === null || _b === void 0 ? void 0 : _b.city) === null || _c === void 0 ? void 0 : _c.toLowerCase();
+        const showDateStr = show.date;
+        const showTimeStr = show.time;
+        if (!showDateStr || !showTimeStr || showCity !== city.toLowerCase())
+            continue;
+        const [dd, mm, yyyy] = showDateStr.split("-");
+        const showDate = new Date(`${yyyy}-${mm}-${dd}`);
+        if (showDate < today || showDate > endDate)
+            continue;
+        const isToday = showDate.getDate() === today.getDate() &&
+            showDate.getMonth() === today.getMonth() &&
+            showDate.getFullYear() === today.getFullYear();
+        if (isToday) {
+            const [timePart, modifier] = showTimeStr.split(" ");
+            let [hours, minutes] = timePart.split(":").map(Number);
+            if (modifier === "PM" && hours < 12)
+                hours += 12;
+            if (modifier === "AM" && hours === 12)
+                hours = 0;
+            const showDateTime = new Date(showDate);
+            showDateTime.setHours(hours, minutes, 0);
+            if (showDateTime <= today)
+                continue;
+        }
+        uniqueDates.add(showDateStr);
+    }
+    // Convert to array with day names
+    const sortedDateObjects = Array.from(uniqueDates)
+        .sort((a, b) => {
+        const [d1, m1, y1] = a.split("-").map(Number);
+        const [d2, m2, y2] = b.split("-").map(Number);
+        return (new Date(y1, m1 - 1, d1).getTime() - new Date(y2, m2 - 1, d2).getTime());
+    })
+        .map((dateStr) => ({
+        date: dateStr,
+        day: (0, helpers_1.getDayName)(dateStr),
+    }));
+    res.status(200).json({
+        movie,
+        upcomingDates: sortedDateObjects,
+    });
+});
+exports.default = {
+    createMovie,
+    getAvailableMoviesByCity,
+    getUpcomingDatesForMovies,
+};
 //# sourceMappingURL=movie.controller.js.map

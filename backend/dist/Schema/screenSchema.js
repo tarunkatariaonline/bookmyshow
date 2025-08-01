@@ -10,7 +10,7 @@ exports.seatCategorySchema = new Schema({
     name: {
         type: String,
         required: true,
-        enum: ["Gold", "Silver", "Platinum", "Recliner", "Sofa"], // add more if needed
+        enum: ["Gold", "Silver", "Diamond", "Platinum", "Recliner", "Sofa"], // add more if needed
     },
     price: {
         type: Number,

@@ -6,4 +6,8 @@ const router = express.Router();
 
 router.post("/create", asyncHandler(movie.createMovie));
 router.get("/available/:city", asyncHandler(movie.getAvailableMoviesByCity));
+router.get(
+  "/available/:movieId/:city/upcoming-dates",
+  asyncHandler(movie.getUpcomingDatesForMovies)
+);
 export default router;

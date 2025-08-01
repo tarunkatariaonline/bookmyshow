@@ -8,5 +8,7 @@ const asyncHandler_1 = __importDefault(require("../Utils/asyncHandler"));
 const movie_controller_1 = __importDefault(require("../Controllers/movie.controller"));
 const router = express_1.default.Router();
 router.post("/create", (0, asyncHandler_1.default)(movie_controller_1.default.createMovie));
+router.get("/available/:city", (0, asyncHandler_1.default)(movie_controller_1.default.getAvailableMoviesByCity));
+router.get("/available/:movieId/:city/upcoming-dates", (0, asyncHandler_1.default)(movie_controller_1.default.getUpcomingDatesForMovies));
 exports.default = router;
 //# sourceMappingURL=movie.routes.js.map
