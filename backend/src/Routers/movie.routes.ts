@@ -10,4 +10,9 @@ router.get(
   "/available/:movieId/:city/upcoming-dates",
   asyncHandler(movie.getUpcomingDatesForMovies)
 );
+
+router.get(
+  "/available/:city/:movieId/:date/cinemas",
+  asyncHandler(movie.getCinemasForMovieByDate)
+);
 export default router;

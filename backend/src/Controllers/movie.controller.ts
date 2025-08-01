@@ -180,8 +180,94 @@ const getUpcomingDatesForMovies = async (req: Request, res: Response) => {
   });
 };
 
+const getCinemasForMovieByDate = async (req: Request, res: Response) => {
+  try {
+    const { city, movieId, date } = req.params;
+
+    if (!city || !movieId || !date) {
+      throw new CustomError("City, Movie ID, and Date are required", 400);
+    }
+
+    const movie = await Movie.findById(movieId).lean();
+    if (!movie) {
+      throw new CustomError("Movie not found", 404);
+    }
+
+    const shows = await Show.find({ movie: movieId, date })
+      .populate({
+        path: "cinema",
+        select: "name location",
+      })
+      .populate({
+        path: "screen",
+        select: "name",
+      })
+      .select("cinema screen date time")
+      .lean();
+
+    const filteredShows = shows.filter(
+      (show) =>
+        (show.cinema as any)?.location?.city?.toLowerCase() ===
+        city.toLowerCase()
+    );
+
+    const cinemaMap = new Map<
+      string,
+      {
+        name: string;
+        _id: string;
+        location: {
+          city: string;
+          address: string;
+          pincode: number;
+        };
+        shows: {
+          _id: string;
+          time: string;
+          screen_id: string;
+          screen: string;
+        }[];
+      }
+    >();
+
+    for (const show of filteredShows) {
+      const cinema = show.cinema as any;
+      const cinemaId = cinema._id.toString();
+
+      if (!cinemaMap.has(cinemaId)) {
+        cinemaMap.set(cinemaId, {
+          name: cinema.name,
+          _id: cinema._id,
+          location: cinema.location,
+          shows: [],
+        });
+      }
+
+      cinemaMap.get(cinemaId)!.shows.push({
+        _id: show._id.toString(),
+        time: show.time,
+        screen_id: (show.screen as any)?._id,
+        screen: (show.screen as any)?.name || "Unknown Screen",
+      });
+    }
+
+    const cinemaList = Array.from(cinemaMap.values());
+
+    res.status(200).json({
+      movieId,
+      cinemas: cinemaList,
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.statusCode || 500).json({
+      message: error.message || "Something went wrong",
+    });
+  }
+};
+
 export default {
   createMovie,
   getAvailableMoviesByCity,
   getUpcomingDatesForMovies,
+  getCinemasForMovieByDate,
 };

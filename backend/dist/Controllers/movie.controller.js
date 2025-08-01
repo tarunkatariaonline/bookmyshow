@@ -143,9 +143,69 @@ const getUpcomingDatesForMovies = (req, res) => __awaiter(void 0, void 0, void 0
         upcomingDates: sortedDateObjects,
     });
 });
+const getCinemasForMovieByDate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    try {
+        const { city, movieId, date } = req.params;
+        if (!city || !movieId || !date) {
+            throw new CustomError_1.default("City, Movie ID, and Date are required", 400);
+        }
+        const movie = yield movieSchema_1.default.findById(movieId).lean();
+        if (!movie) {
+            throw new CustomError_1.default("Movie not found", 404);
+        }
+        const shows = yield showSchema_1.default.find({ movie: movieId, date })
+            .populate({
+            path: "cinema",
+            select: "name location",
+        })
+            .populate({
+            path: "screen",
+            select: "name",
+        })
+            .select("cinema screen date time")
+            .lean();
+        const filteredShows = shows.filter((show) => {
+            var _a, _b, _c;
+            return ((_c = (_b = (_a = show.cinema) === null || _a === void 0 ? void 0 : _a.location) === null || _b === void 0 ? void 0 : _b.city) === null || _c === void 0 ? void 0 : _c.toLowerCase()) ===
+                city.toLowerCase();
+        });
+        const cinemaMap = new Map();
+        for (const show of filteredShows) {
+            const cinema = show.cinema;
+            const cinemaId = cinema._id.toString();
+            if (!cinemaMap.has(cinemaId)) {
+                cinemaMap.set(cinemaId, {
+                    name: cinema.name,
+                    _id: cinema._id,
+                    location: cinema.location,
+                    shows: [],
+                });
+            }
+            cinemaMap.get(cinemaId).shows.push({
+                _id: show._id.toString(),
+                time: show.time,
+                screen_id: (_a = show.screen) === null || _a === void 0 ? void 0 : _a._id,
+                screen: ((_b = show.screen) === null || _b === void 0 ? void 0 : _b.name) || "Unknown Screen",
+            });
+        }
+        const cinemaList = Array.from(cinemaMap.values());
+        res.status(200).json({
+            movieId,
+            cinemas: cinemaList,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            message: error.message || "Something went wrong",
+        });
+    }
+});
 exports.default = {
     createMovie,
     getAvailableMoviesByCity,
     getUpcomingDatesForMovies,
+    getCinemasForMovieByDate,
 };
 //# sourceMappingURL=movie.controller.js.map
