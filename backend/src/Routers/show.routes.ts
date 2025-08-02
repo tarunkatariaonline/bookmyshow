@@ -7,5 +7,6 @@ router.post(
   "/:movieId/:cinemaId/:screenId/create",
   asyncHandler(show.createShow)
 );
+router.get("/:showId", asyncHandler(show.getShowById));
 
 export default router;

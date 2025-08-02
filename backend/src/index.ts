@@ -17,10 +17,10 @@ app.use(bodyParser.json());
 const port = 3000;
 
 app.use("/api/v1/user", user);
-app.use("/api/v1/movie", movie);
-app.use("/api/v1/cinema", cinema);
-app.use("/api/v1/screen", screen);
-app.use("/api/v1/show", show);
+app.use("/api/v1/movies", movie);
+app.use("/api/v1/cinemas", cinema);
+app.use("/api/v1/screens", screen);
+app.use("/api/v1/shows", show);
 
 app.use(
   "/",

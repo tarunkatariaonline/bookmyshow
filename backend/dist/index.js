@@ -18,10 +18,10 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 const port = 3000;
 app.use("/api/v1/user", user_routes_1.default);
-app.use("/api/v1/movie", movie_routes_1.default);
-app.use("/api/v1/cinema", cinema_routes_1.default);
-app.use("/api/v1/screen", screen_routes_1.default);
-app.use("/api/v1/show", show_routes_1.default);
+app.use("/api/v1/movies", movie_routes_1.default);
+app.use("/api/v1/cinemas", cinema_routes_1.default);
+app.use("/api/v1/screens", screen_routes_1.default);
+app.use("/api/v1/shows", show_routes_1.default);
 app.use("/", (err, req, res, next) => {
     res.status(err.statusCode || 500).send({
         message: err.message || "Server Error",

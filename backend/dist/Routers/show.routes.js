@@ -8,5 +8,6 @@ const asyncHandler_1 = __importDefault(require("../Utils/asyncHandler"));
 const show_controller_1 = __importDefault(require("../Controllers/show.controller"));
 const router = express_1.default.Router();
 router.post("/:movieId/:cinemaId/:screenId/create", (0, asyncHandler_1.default)(show_controller_1.default.createShow));
+router.get("/:showId", (0, asyncHandler_1.default)(show_controller_1.default.getShowById));
 exports.default = router;
 //# sourceMappingURL=show.routes.js.map
