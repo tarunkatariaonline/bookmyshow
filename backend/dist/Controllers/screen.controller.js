@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cinemaSchema_1 = __importDefault(require("../Schema/cinemaSchema"));
+const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
-const screenSchema_1 = __importDefault(require("../Schema/screenSchema"));
+const screen_schema_1 = __importDefault(require("../Schema/screen.schema"));
 const createCinemaScreen = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cinemaId = req.params.cinemaId;
     const { name, seatLayout } = req.body;
@@ -24,11 +24,11 @@ const createCinemaScreen = (req, res) => __awaiter(void 0, void 0, void 0, funct
     if (!name || !seatLayout) {
         throw new CustomError_1.default("Screen name and seat layout are required", 400);
     }
-    const cinema = yield cinemaSchema_1.default.findById(cinemaId);
+    const cinema = yield cinema_schema_1.default.findById(cinemaId);
     if (!cinema) {
         throw new CustomError_1.default("Cinema not found!", 404);
     }
-    const screen = new screenSchema_1.default({
+    const screen = new screen_schema_1.default({
         name,
         seatLayout,
         cinema: cinemaId, // connect screen to cinema

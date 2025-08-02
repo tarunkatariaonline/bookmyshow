@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cinemaSchema_1 = __importDefault(require("../Schema/cinemaSchema"));
+const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const createCinema = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cinema = req.body;
-    yield cinemaSchema_1.default.create(cinema);
+    yield cinema_schema_1.default.create(cinema);
     res.status(201).json({
         message: "Cinema created successfully",
     });

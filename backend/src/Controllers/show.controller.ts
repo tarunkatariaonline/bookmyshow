@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import Screen from "../Schema/screenSchema";
+import Screen from "../Schema/screen.schema";
 import CustomError from "../Utils/CustomError";
-import Show from "../Schema/showSchema";
-import Movie from "../Schema/movieSchema";
+import Show from "../Schema/show.schema";
+import Movie from "../Schema/movie.schema";
 import { getDayName } from "../Utils/helpers";
 
 const createShow = async (req: Request, res: Response) => {

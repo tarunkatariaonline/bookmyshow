@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Movie from "../Schema/movieSchema";
+import Movie from "../Schema/movie.schema";
 import CustomError from "../Utils/CustomError";
-import Show from "../Schema/showSchema";
+import Show from "../Schema/show.schema";
 import { parseDateTime, getDayName } from "../Utils/helpers";
 type PopulatedCinema = {
   location?: {

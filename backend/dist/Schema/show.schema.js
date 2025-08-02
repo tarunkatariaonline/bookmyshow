@@ -41,4 +41,4 @@ const showSchema = new mongoose_2.Schema({
 }, { timestamps: true });
 const Show = mongoose_1.default.model("Show", showSchema);
 exports.default = Show;
-//# sourceMappingURL=showSchema.js.map
+//# sourceMappingURL=show.schema.js.map

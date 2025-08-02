@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const userSchema_1 = __importDefault(require("../Schema/userSchema"));
+const user_schema_1 = __importDefault(require("../Schema/user.schema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
 const user = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header("Authorization").split(" ")[1];
@@ -24,7 +24,7 @@ const user = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     if (!verified || typeof verified !== "object" || !verified.id) {
         throw new CustomError_1.default("Invalid Token", 403);
     }
-    const user = yield userSchema_1.default.findById(verified.id).select("-password");
+    const user = yield user_schema_1.default.findById(verified.id).select("-password");
     if (!user) {
         throw new CustomError_1.default("User not found", 404);
     }

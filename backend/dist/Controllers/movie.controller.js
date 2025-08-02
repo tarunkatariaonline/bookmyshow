@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const movieSchema_1 = __importDefault(require("../Schema/movieSchema"));
+const movie_schema_1 = __importDefault(require("../Schema/movie.schema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
-const showSchema_1 = __importDefault(require("../Schema/showSchema"));
+const show_schema_1 = __importDefault(require("../Schema/show.schema"));
 const helpers_1 = require("../Utils/helpers");
 const createMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, duration, genre, language, releaseDate, certificate, posterUrl, trailerUrl, status, cast, director, ratings, } = req.body;
@@ -41,7 +41,7 @@ const createMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         director,
         ratings,
     };
-    yield movieSchema_1.default.create(movie);
+    yield movie_schema_1.default.create(movie);
     res.status(201).json({
         message: "Movie created successfully",
     });
@@ -52,7 +52,7 @@ const getAvailableMoviesByCity = (req, res) => __awaiter(void 0, void 0, void 0,
         throw new CustomError_1.default("City parameter is required", 400);
     }
     const now = new Date();
-    const shows = yield showSchema_1.default.find()
+    const shows = yield show_schema_1.default.find()
         .populate("movie")
         .populate({
         path: "cinema",
@@ -85,11 +85,11 @@ const getUpcomingDatesForMovies = (req, res) => __awaiter(void 0, void 0, void 0
     if (!city || !movieId) {
         throw new CustomError_1.default("City and Movie ID are required", 400);
     }
-    const movie = yield movieSchema_1.default.findById(movieId).lean();
+    const movie = yield movie_schema_1.default.findById(movieId).lean();
     if (!movie) {
         throw new CustomError_1.default("Movie not found", 404);
     }
-    const shows = yield showSchema_1.default.find({ movie: movieId })
+    const shows = yield show_schema_1.default.find({ movie: movieId })
         .populate({
         path: "cinema",
         select: "location",
@@ -150,11 +150,11 @@ const getCinemasForMovieByDate = (req, res) => __awaiter(void 0, void 0, void 0,
         if (!city || !movieId || !date) {
             throw new CustomError_1.default("City, Movie ID, and Date are required", 400);
         }
-        const movie = yield movieSchema_1.default.findById(movieId).lean();
+        const movie = yield movie_schema_1.default.findById(movieId).lean();
         if (!movie) {
             throw new CustomError_1.default("Movie not found", 404);
         }
-        const shows = yield showSchema_1.default.find({ movie: movieId, date })
+        const shows = yield show_schema_1.default.find({ movie: movieId, date })
             .populate({
             path: "cinema",
             select: "name location",

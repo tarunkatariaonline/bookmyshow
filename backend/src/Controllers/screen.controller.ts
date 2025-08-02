@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Cinema from "../Schema/cinemaSchema";
+import Cinema from "../Schema/cinema.schema";
 import CustomError from "../Utils/CustomError";
-import Screen from "../Schema/screenSchema";
+import Screen from "../Schema/screen.schema";
 
 const createCinemaScreen = async (req: Request, res: Response) => {
   const cinemaId = req.params.cinemaId;

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../Schema/userSchema";
+import User from "../Schema/user.schema";
 import CustomError from "../Utils/CustomError";
 declare module "express-serve-static-core" {
   interface Request {

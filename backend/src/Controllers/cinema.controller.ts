@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Cinema from "../Schema/cinemaSchema";
+import Cinema from "../Schema/cinema.schema";
 import CustomError from "../Utils/CustomError";
 
 const createCinema = async (req: Request, res: Response) => {
