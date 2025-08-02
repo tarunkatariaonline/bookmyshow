@@ -1,20 +1,20 @@
 import express, { Request, Response } from "express";
 import asyncHandler from "../Utils/asyncHandler";
-import userAuth from "../Middlewares/userAuth.middleware";
+import auth from "../Middlewares/auth.middleware";
 import user from "../Controllers/user.controller";
 const router = express.Router();
 
 router.post("/register", asyncHandler(user.register));
 router.get("/login", asyncHandler(user.login));
-router.get("/profile", asyncHandler(userAuth), asyncHandler(user.profile));
+router.get("/profile", asyncHandler(auth.user), asyncHandler(user.profile));
 router.put(
   "/changepassword",
-  asyncHandler(userAuth),
+  asyncHandler(auth.user),
   asyncHandler(user.changePassword)
 );
 router.put(
   "/updateprofile",
-  asyncHandler(userAuth),
+  asyncHandler(auth.user),
   asyncHandler(user.updateProfile)
 );
 

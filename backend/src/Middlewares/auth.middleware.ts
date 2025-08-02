@@ -12,7 +12,7 @@ declare module "express-serve-static-core" {
     };
   }
 }
-const userAuth = async (req: Request, res: Response, next: NextFunction) => {
+const user = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header("Authorization").split(" ")[1];
 
   if (!token) {
@@ -32,4 +32,4 @@ const userAuth = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export default userAuth;
+export default { user };

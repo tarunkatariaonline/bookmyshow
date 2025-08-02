@@ -32,4 +32,4 @@ const user = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     next();
 });
 exports.default = { user };
-//# sourceMappingURL=userAuth.middleware.js.map
+//# sourceMappingURL=auth.middleware.js.map
