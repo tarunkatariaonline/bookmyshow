@@ -12,10 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getShowById = void 0;
+exports.getShowsByCinemaMovieAndDate = exports.getShowById = void 0;
 const screenSchema_1 = __importDefault(require("../Schema/screenSchema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
 const showSchema_1 = __importDefault(require("../Schema/showSchema"));
+const movieSchema_1 = __importDefault(require("../Schema/movieSchema"));
+const helpers_1 = require("../Utils/helpers");
 const createShow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cinemaId = req.params.cinemaId;
     const screenId = req.params.screenId;
@@ -48,9 +50,9 @@ const getShowById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         throw new CustomError_1.default("Show ID is required", 400);
     }
     const show = yield showSchema_1.default.findById(showId)
-        .populate("movie") // populates full movie document
-        .populate("cinema") // populates full cinema document
-        .populate("screen") // populates full screen document
+        .populate("movie")
+        .populate("cinema")
+        .populate("screen")
         .lean();
     if (!show) {
         throw new CustomError_1.default("Show not found", 404);
@@ -58,5 +60,46 @@ const getShowById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.status(200).json(show);
 });
 exports.getShowById = getShowById;
-exports.default = { createShow, getShowById: exports.getShowById };
+const getShowsByCinemaMovieAndDate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { city, cinemaId, movieId, date } = req.params;
+    if (!city || !cinemaId || !movieId || !date) {
+        throw new CustomError_1.default("City, Cinema ID, Movie ID, and Date are required", 400);
+    }
+    const movie = yield movieSchema_1.default.findById(movieId).lean();
+    if (!movie) {
+        throw new CustomError_1.default("Movie not found", 404);
+    }
+    const shows = yield showSchema_1.default.find({ cinema: cinemaId, movie: movieId, date })
+        .populate({
+        path: "cinema",
+        select: "location",
+    })
+        .populate({
+        path: "screen",
+        select: "name",
+    })
+        .select("time screen cinema")
+        .lean();
+    const filteredShows = shows.filter((show) => { var _a, _b, _c; return ((_c = (_b = (_a = show.cinema) === null || _a === void 0 ? void 0 : _a.location) === null || _b === void 0 ? void 0 : _b.city) === null || _c === void 0 ? void 0 : _c.toLowerCase()) === city.toLowerCase(); });
+    if (filteredShows.length === 0) {
+        throw new CustomError_1.default("No shows found for this movie in this city/cinema on this date", 404);
+    }
+    const showList = filteredShows.map((show) => {
+        var _a;
+        return ({
+            id: show._id.toString(),
+            time: show.time,
+            screen: ((_a = show.screen) === null || _a === void 0 ? void 0 : _a.name) || "Unknown Screen",
+        });
+    });
+    const day = (0, helpers_1.getDayName)(date);
+    res.status(200).json({
+        movie,
+        date,
+        day,
+        shows: showList,
+    });
+});
+exports.getShowsByCinemaMovieAndDate = getShowsByCinemaMovieAndDate;
+exports.default = { createShow, getShowById: exports.getShowById, getShowsByCinemaMovieAndDate: exports.getShowsByCinemaMovieAndDate };
 //# sourceMappingURL=show.controller.js.map

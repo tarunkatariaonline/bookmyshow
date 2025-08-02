@@ -3,6 +3,7 @@ import Screen from "../Schema/screenSchema";
 import CustomError from "../Utils/CustomError";
 import Show from "../Schema/showSchema";
 import Movie from "../Schema/movieSchema";
+import { getDayName } from "../Utils/helpers";
 
 const createShow = async (req: Request, res: Response) => {
   const cinemaId = req.params.cinemaId;
@@ -40,9 +41,9 @@ export const getShowById = async (req: Request, res: Response) => {
   }
 
   const show = await Show.findById(showId)
-    .populate("movie") // populates full movie document
-    .populate("cinema") // populates full cinema document
-    .populate("screen") // populates full screen document
+    .populate("movie")
+    .populate("cinema")
+    .populate("screen")
     .lean();
 
   if (!show) {
@@ -52,4 +53,62 @@ export const getShowById = async (req: Request, res: Response) => {
   res.status(200).json(show);
 };
 
-export default { createShow, getShowById };
+export const getShowsByCinemaMovieAndDate = async (
+  req: Request,
+  res: Response
+) => {
+  const { city, cinemaId, movieId, date } = req.params;
+
+  if (!city || !cinemaId || !movieId || !date) {
+    throw new CustomError(
+      "City, Cinema ID, Movie ID, and Date are required",
+      400
+    );
+  }
+
+  const movie = await Movie.findById(movieId).lean();
+  if (!movie) {
+    throw new CustomError("Movie not found", 404);
+  }
+
+  const shows = await Show.find({ cinema: cinemaId, movie: movieId, date })
+    .populate({
+      path: "cinema",
+      select: "location",
+    })
+    .populate({
+      path: "screen",
+      select: "name",
+    })
+    .select("time screen cinema")
+    .lean();
+
+  const filteredShows = shows.filter(
+    (show) =>
+      (show.cinema as any)?.location?.city?.toLowerCase() === city.toLowerCase()
+  );
+
+  if (filteredShows.length === 0) {
+    throw new CustomError(
+      "No shows found for this movie in this city/cinema on this date",
+      404
+    );
+  }
+
+  const showList = filteredShows.map((show) => ({
+    id: show._id.toString(),
+    time: show.time,
+    screen: (show.screen as any)?.name || "Unknown Screen",
+  }));
+
+  const day = getDayName(date);
+
+  res.status(200).json({
+    movie,
+    date,
+    day,
+    shows: showList,
+  });
+};
+
+export default { createShow, getShowById, getShowsByCinemaMovieAndDate };

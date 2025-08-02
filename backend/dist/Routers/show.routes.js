@@ -9,5 +9,6 @@ const show_controller_1 = __importDefault(require("../Controllers/show.controlle
 const router = express_1.default.Router();
 router.post("/:movieId/:cinemaId/:screenId/create", (0, asyncHandler_1.default)(show_controller_1.default.createShow));
 router.get("/:showId", (0, asyncHandler_1.default)(show_controller_1.default.getShowById));
+router.get("/:city/:cinemaId/:movieId/:date", (0, asyncHandler_1.default)(show_controller_1.default.getShowsByCinemaMovieAndDate));
 exports.default = router;
 //# sourceMappingURL=show.routes.js.map

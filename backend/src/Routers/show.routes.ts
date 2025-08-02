@@ -8,5 +8,9 @@ router.post(
   asyncHandler(show.createShow)
 );
 router.get("/:showId", asyncHandler(show.getShowById));
+router.get(
+  "/:city/:cinemaId/:movieId/:date",
+  asyncHandler(show.getShowsByCinemaMovieAndDate)
+);
 
 export default router;
