@@ -1,20 +1,25 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import asyncHandler from "../Utils/asyncHandler";
 import auth from "../Middlewares/auth.middleware";
 import user from "../Controllers/user.controller";
+import ROLE from "../Constants/role.constants";
 const router = express.Router();
 
 router.post("/register", asyncHandler(user.register));
 router.get("/login", asyncHandler(user.login));
-router.get("/profile", asyncHandler(auth.user), asyncHandler(user.profile));
+router.get(
+  "/profile",
+  asyncHandler(auth(ROLE.ALL)),
+  asyncHandler(user.profile)
+);
 router.put(
   "/changepassword",
-  asyncHandler(auth.user),
+  asyncHandler(auth(ROLE.ALL)),
   asyncHandler(user.changePassword)
 );
 router.put(
   "/updateprofile",
-  asyncHandler(auth.user),
+  asyncHandler(auth(ROLE.ALL)),
   asyncHandler(user.updateProfile)
 );
 
