@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import asyncHandler from "../Utils/asyncHandler";
 import show from "../Controllers/show.controller";
 const router = express.Router();
