@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Cinema from "../Schema/cinema.schema";
 import CustomError from "../Utils/CustomError";
 import Screen from "../Schema/screen.schema";
+import screenService from "../Services/screen.service";
 
 const createCinemaScreen = async (req: Request, res: Response) => {
   const cinemaId = req.params.cinemaId;
@@ -15,18 +16,7 @@ const createCinemaScreen = async (req: Request, res: Response) => {
     throw new CustomError("Screen name and seat layout are required", 400);
   }
 
-  const cinema = await Cinema.findById(cinemaId);
-  if (!cinema) {
-    throw new CustomError("Cinema not found!", 404);
-  }
-
-  const screen = new Screen({
-    name,
-    seatLayout,
-    cinema: cinemaId, // connect screen to cinema
-  });
-
-  await screen.save();
+  await screenService.createCinemaScreen({ name, cinemaId, seatLayout });
 
   res.status(201).json({
     message: "Screen added successfully",

@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import Cinema from "../Schema/cinema.schema";
-import CustomError from "../Utils/CustomError";
+import { ICinemaCreateReq } from "../Types/cinema.types";
+import cinemaService from "../Services/cinema.service";
 
 const createCinema = async (req: Request, res: Response) => {
-  const cinema = req.body;
-  await Cinema.create(cinema);
+  const cinema = req.body as ICinemaCreateReq;
+  await cinemaService.createCinema(cinema);
   res.status(201).json({
     message: "Cinema created successfully",
   });

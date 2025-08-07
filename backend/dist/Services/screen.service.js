@@ -12,21 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
-const screen_service_1 = __importDefault(require("../Services/screen.service"));
-const createCinemaScreen = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cinemaId = req.params.cinemaId;
-    const { name, seatLayout } = req.body;
-    if (!cinemaId) {
-        throw new CustomError_1.default("Cinema ID is required", 400);
+const screen_schema_1 = __importDefault(require("../Schema/screen.schema"));
+const createCinemaScreen = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, cinemaId, seatLayout, }) {
+    const cinema = yield cinema_schema_1.default.findById(cinemaId);
+    if (!cinema) {
+        throw new CustomError_1.default("Cinema not found!", 404);
     }
-    if (!name || !seatLayout) {
-        throw new CustomError_1.default("Screen name and seat layout are required", 400);
-    }
-    yield screen_service_1.default.createCinemaScreen({ name, cinemaId, seatLayout });
-    res.status(201).json({
-        message: "Screen added successfully",
+    const screen = new screen_schema_1.default({
+        name,
+        seatLayout,
+        cinema: cinemaId, // connect screen to cinema
     });
+    yield screen.save();
 });
 exports.default = { createCinemaScreen };
-//# sourceMappingURL=screen.controller.js.map
+//# sourceMappingURL=screen.service.js.map
