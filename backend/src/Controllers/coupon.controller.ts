@@ -39,4 +39,28 @@ const createCoupon = async (req: Request, res: Response) => {
   });
 };
 
-export default { createCoupon };
+const validateCoupon = async (req: Request, res: Response) => {
+  const { code, bookingAmount } = req.body;
+
+  if (!code || !bookingAmount) {
+    throw new CustomError("Coupon code and booking amount are required", 400);
+  }
+
+  // Find coupon
+  const {
+    code: couponCode,
+    discount,
+    finalAmount,
+  } = await couponService.validateCoupon(code, bookingAmount);
+
+  res.status(200).json({
+    message: "Coupon is valid",
+    coupon: {
+      code: couponCode,
+      discount,
+      finalAmount,
+    },
+  });
+};
+
+export default { createCoupon, validateCoupon };

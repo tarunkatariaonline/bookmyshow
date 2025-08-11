@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const CustomError_1 = __importDefault(require("../Utils/CustomError"));
 const coupon_service_1 = __importDefault(require("../Services/coupon.service"));
 const createCoupon = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, code, discountType, discountValue, minPurchaseAmount, maxDiscountAmount, startDate, endDate, usageLimit, isActive, } = req.body;
@@ -34,5 +35,21 @@ const createCoupon = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         coupon,
     });
 });
-exports.default = { createCoupon };
+const validateCoupon = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { code, bookingAmount } = req.body;
+    if (!code || !bookingAmount) {
+        throw new CustomError_1.default("Coupon code and booking amount are required", 400);
+    }
+    // Find coupon
+    const { code: couponCode, discount, finalAmount, } = yield coupon_service_1.default.validateCoupon(code, bookingAmount);
+    res.status(200).json({
+        message: "Coupon is valid",
+        coupon: {
+            code: couponCode,
+            discount,
+            finalAmount,
+        },
+    });
+});
+exports.default = { createCoupon, validateCoupon };
 //# sourceMappingURL=coupon.controller.js.map

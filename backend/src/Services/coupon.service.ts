@@ -40,4 +40,50 @@ const createCoupon = async ({
   return coupon;
 };
 
-export default { createCoupon };
+const validateCoupon = async (code: string, bookingAmount: number) => {
+  // Find coupon
+  const coupon = await Coupon.findOne({ code: code.toUpperCase() });
+  if (!coupon) {
+    throw new CustomError("Coupon not found", 404);
+  }
+
+  // Check active status
+  if (!coupon.isActive) {
+    throw new CustomError("Coupon is inactive", 404);
+  }
+
+  // Check usage limit
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) {
+    throw new CustomError("Reached the usage of coupon !", 400);
+  }
+
+  // Check min purchase amount
+  if (bookingAmount < coupon.minPurchaseAmount) {
+    throw new CustomError(
+      `Minimum purchase amount for this coupon is ₹${coupon.minPurchaseAmount}`,
+      400
+    );
+  }
+
+  // Calculate discount
+  let discount = 0;
+  if (coupon.discountType === "percentage") {
+    discount = (bookingAmount * coupon.discountValue) / 100;
+    if (coupon.maxDiscountAmount) {
+      discount = Math.min(discount, coupon.maxDiscountAmount);
+    }
+  } else if (coupon.discountType === "fixed") {
+    discount = coupon.discountValue;
+  }
+
+  // Final amount after discount
+  const finalAmount = Math.max(bookingAmount - discount, 0);
+
+  return {
+    code: coupon.code,
+    discount,
+    finalAmount,
+  };
+};
+
+export default { createCoupon, validateCoupon };

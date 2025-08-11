@@ -4,5 +4,6 @@ import coupon from "../Controllers/coupon.controller";
 const router = express.Router();
 
 router.post("/create", asyncHandler(coupon.createCoupon));
+router.get("/validate", asyncHandler(coupon.validateCoupon));
 
 export default router;
