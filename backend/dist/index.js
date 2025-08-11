@@ -10,6 +10,7 @@ const movie_routes_1 = __importDefault(require("./Routers/movie.routes"));
 const cinema_routes_1 = __importDefault(require("./Routers/cinema.routes"));
 const screen_routes_1 = __importDefault(require("./Routers/screen.routes"));
 const show_routes_1 = __importDefault(require("./Routers/show.routes"));
+const coupon_routes_1 = __importDefault(require("./Routers/coupon.routes"));
 const booking_routes_1 = __importDefault(require("./Routers/booking.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
@@ -25,6 +26,7 @@ app.use("/api/v1/cinemas", cinema_routes_1.default);
 app.use("/api/v1/screens", screen_routes_1.default);
 app.use("/api/v1/shows", show_routes_1.default);
 app.use("/api/v1/bookings", booking_routes_1.default);
+app.use("/api/v1/coupons", coupon_routes_1.default);
 app.use("/", errorHandler_middleware_1.default);
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);

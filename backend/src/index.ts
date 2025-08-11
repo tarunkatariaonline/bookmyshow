@@ -1,10 +1,11 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import "./Config/db.config";
 import user from "./Routers/user.routes";
 import movie from "./Routers/movie.routes";
 import cinema from "./Routers/cinema.routes";
 import screen from "./Routers/screen.routes";
 import show from "./Routers/show.routes";
+import coupon from "./Routers/coupon.routes";
 import booking from "./Routers/booking.routes";
 import bodyParser from "body-parser";
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api/v1/cinemas", cinema);
 app.use("/api/v1/screens", screen);
 app.use("/api/v1/shows", show);
 app.use("/api/v1/bookings", booking);
+app.use("/api/v1/coupons", coupon);
 app.use("/", errorHandler);
 
 app.listen(port, () => {

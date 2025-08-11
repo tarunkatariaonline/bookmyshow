@@ -186,6 +186,18 @@ const downloadTicket = (bookingId, res) => __awaiter(void 0, void 0, void 0, fun
     });
     doc.end();
 });
+// frontend code to download pdf :
+// function downloadPDF(bookingId) {
+//   fetch(`/api/v1/booking/${bookingId}/pdf`)
+//     .then(res => res.blob())
+//     .then(blob => {
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement("a");
+//       a.href = url;
+//       a.download = `ticket-${bookingId}.pdf`;
+//       a.click();
+//     });
+// }
 exports.default = {
     createBooking,
     getBookingsByUser,

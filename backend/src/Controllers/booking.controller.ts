@@ -1,13 +1,5 @@
-import mongoose from "mongoose";
-import Booking from "../Schema/booking.schema.js";
-import Show from "../Schema/show.schema.js";
 import { Request, Response } from "express";
 import bookingService from "../Services/booking.service.js";
-import CustomError from "../Utils/CustomError.js";
-
-import QRCode from "qrcode";
-import PDFDocument from "pdfkit";
-
 const createBooking = async (req: Request, res: Response) => {
   const {
     showId,
