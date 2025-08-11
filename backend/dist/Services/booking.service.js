@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const booking_schema_js_1 = __importDefault(require("../Schema/booking.schema.js"));
 const show_schema_js_1 = __importDefault(require("../Schema/show.schema.js"));
 const CustomError_js_1 = __importDefault(require("../Utils/CustomError.js"));
+const qrcode_1 = __importDefault(require("qrcode"));
 const createBooking = (_a) => __awaiter(void 0, [_a], void 0, function* ({ showId, movie, cinema, screen, seatCategory, seats, // array of seat numbers
 totalPrice, user, }) {
     // 1. Get the show
@@ -68,6 +69,20 @@ const getBookingById = (bookingId) => __awaiter(void 0, void 0, void 0, function
     if (!booking) {
         throw new CustomError_js_1.default("Booking not found !", 404);
     }
+    const ticketUrl = `${process.env.FRONTEND_URL}${booking._id}`;
+    const qrPayload = {
+        booking_id: booking._id,
+        movie_title: booking.movie.title,
+        booked_by: booking.user.name,
+        screen_name: booking.screen.name,
+        seat_category: booking.seatCategory,
+        seats: booking.seats,
+        date: booking.show.date,
+        time: booking.show.time,
+        verify_url: ticketUrl,
+    };
+    const qrCodeImage = yield qrcode_1.default.toDataURL(JSON.stringify(qrPayload));
+    booking.qrCodeImage = qrCodeImage;
     return booking;
 });
 exports.default = { createBooking, getBookingsByUser, getBookingById };

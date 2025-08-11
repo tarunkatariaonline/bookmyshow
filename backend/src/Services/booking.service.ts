@@ -4,7 +4,7 @@ import Show from "../Schema/show.schema.js";
 import { Request, Response } from "express";
 import CustomError from "../Utils/CustomError.js";
 import { ICreateBookingReq } from "../Types/booking.types.js";
-
+import QRCode from "qrcode";
 const createBooking = async ({
   showId,
   movie,
@@ -76,7 +76,21 @@ const getBookingById = async (bookingId: string) => {
   if (!booking) {
     throw new CustomError("Booking not found !", 404);
   }
+  const ticketUrl = `${process.env.FRONTEND_URL}${booking._id}`;
 
+  const qrPayload = {
+    booking_id: booking._id,
+    movie_title: (booking.movie as any).title,
+    booked_by: (booking.user as any).name,
+    screen_name: (booking.screen as any).name,
+    seat_category: booking.seatCategory,
+    seats: booking.seats,
+    date: (booking.show as any).date,
+    time: (booking.show as any).time,
+    verify_url: ticketUrl,
+  };
+  const qrCodeImage = await QRCode.toDataURL(JSON.stringify(qrPayload));
+  booking.qrCodeImage = qrCodeImage;
   return booking;
 };
 export default { createBooking, getBookingsByUser, getBookingById };

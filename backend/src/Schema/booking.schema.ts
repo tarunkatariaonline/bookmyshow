@@ -50,6 +50,7 @@ const bookingSchema = new Schema(
       enum: ["pending", "paid", "failed"],
       default: "paid",
     },
+    qrCodeImage: String,
   },
   { timestamps: true }
 );

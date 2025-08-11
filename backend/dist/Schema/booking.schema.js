@@ -83,6 +83,7 @@ const bookingSchema = new mongoose_1.Schema({
         enum: ["pending", "paid", "failed"],
         default: "paid",
     },
+    qrCodeImage: String,
 }, { timestamps: true });
 const Booking = mongoose_1.default.model("Booking", bookingSchema);
 exports.default = Booking;
