@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post("/create", asyncHandler(coupon.createCoupon));
 router.get("/validate", asyncHandler(coupon.validateCoupon));
+router.get("/list", asyncHandler(coupon.getActiveCoupons));
 
 export default router;

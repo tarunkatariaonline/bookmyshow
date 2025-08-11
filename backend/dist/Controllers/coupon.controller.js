@@ -51,5 +51,13 @@ const validateCoupon = (req, res) => __awaiter(void 0, void 0, void 0, function*
         },
     });
 });
-exports.default = { createCoupon, validateCoupon };
+const getActiveCoupons = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const coupons = yield coupon_service_1.default.getActiveCoupons();
+    res.status(200).json({
+        message: "Active coupons fetched successfully",
+        total: coupons.length,
+        coupons,
+    });
+});
+exports.default = { createCoupon, validateCoupon, getActiveCoupons };
 //# sourceMappingURL=coupon.controller.js.map

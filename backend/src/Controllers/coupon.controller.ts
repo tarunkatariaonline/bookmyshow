@@ -63,4 +63,14 @@ const validateCoupon = async (req: Request, res: Response) => {
   });
 };
 
-export default { createCoupon, validateCoupon };
+const getActiveCoupons = async (req: Request, res: Response) => {
+  const coupons = await couponService.getActiveCoupons();
+
+  res.status(200).json({
+    message: "Active coupons fetched successfully",
+    total: coupons.length,
+    coupons,
+  });
+};
+
+export default { createCoupon, validateCoupon, getActiveCoupons };

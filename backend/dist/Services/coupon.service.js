@@ -73,5 +73,9 @@ const validateCoupon = (code, bookingAmount) => __awaiter(void 0, void 0, void 0
         finalAmount,
     };
 });
-exports.default = { createCoupon, validateCoupon };
+const getActiveCoupons = () => __awaiter(void 0, void 0, void 0, function* () {
+    const coupons = yield coupon_schema_1.default.find({ isActive: true }).sort({ createdAt: -1 });
+    return coupons;
+});
+exports.default = { createCoupon, validateCoupon, getActiveCoupons };
 //# sourceMappingURL=coupon.service.js.map

@@ -86,4 +86,10 @@ const validateCoupon = async (code: string, bookingAmount: number) => {
   };
 };
 
-export default { createCoupon, validateCoupon };
+const getActiveCoupons = async () => {
+  const coupons = await Coupon.find({ isActive: true }).sort({ createdAt: -1 });
+
+  return coupons;
+};
+
+export default { createCoupon, validateCoupon, getActiveCoupons };
