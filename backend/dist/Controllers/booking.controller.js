@@ -51,5 +51,14 @@ const getBookingById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         booking,
     });
 });
-exports.default = { createBooking, getBookingsByUser, getBookingById };
+const downloadTicket = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { bookingId } = req.params;
+    yield booking_service_js_1.default.downloadTicket(bookingId, res);
+});
+exports.default = {
+    createBooking,
+    getBookingsByUser,
+    getBookingById,
+    downloadTicket,
+};
 //# sourceMappingURL=booking.controller.js.map

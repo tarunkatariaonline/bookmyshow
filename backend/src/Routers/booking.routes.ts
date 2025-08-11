@@ -6,4 +6,5 @@ const router = express.Router();
 router.post("/create", asyncHandler(booking.createBooking));
 router.get("/mybookings", asyncHandler(booking.getBookingsByUser));
 router.get("/:bookingId", asyncHandler(booking.getBookingById));
+router.get("/download/:bookingId/pdf", asyncHandler(booking.downloadTicket));
 export default router;

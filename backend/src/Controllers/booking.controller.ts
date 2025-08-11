@@ -5,6 +5,9 @@ import { Request, Response } from "express";
 import bookingService from "../Services/booking.service.js";
 import CustomError from "../Utils/CustomError.js";
 
+import QRCode from "qrcode";
+import PDFDocument from "pdfkit";
+
 const createBooking = async (req: Request, res: Response) => {
   const {
     showId,
@@ -58,4 +61,15 @@ const getBookingById = async (req: Request, res: Response) => {
   });
 };
 
-export default { createBooking, getBookingsByUser, getBookingById };
+const downloadTicket = async (req: Request, res: Response) => {
+  const { bookingId } = req.params;
+
+  await bookingService.downloadTicket(bookingId, res);
+};
+
+export default {
+  createBooking,
+  getBookingsByUser,
+  getBookingById,
+  downloadTicket,
+};

@@ -10,5 +10,6 @@ const router = express_1.default.Router();
 router.post("/create", (0, asyncHandler_1.default)(booking_controller_1.default.createBooking));
 router.get("/mybookings", (0, asyncHandler_1.default)(booking_controller_1.default.getBookingsByUser));
 router.get("/:bookingId", (0, asyncHandler_1.default)(booking_controller_1.default.getBookingById));
+router.get("/download/:bookingId/pdf", (0, asyncHandler_1.default)(booking_controller_1.default.downloadTicket));
 exports.default = router;
 //# sourceMappingURL=booking.routes.js.map
