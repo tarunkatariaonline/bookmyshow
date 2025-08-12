@@ -8,6 +8,20 @@ const cinemaSchema = new mongoose.Schema({
     address: String,
     pincode: Number,
   },
+  managers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  ],
+  security: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  ],
 });
 
 const Cinema = mongoose.model("Cinema", cinemaSchema);

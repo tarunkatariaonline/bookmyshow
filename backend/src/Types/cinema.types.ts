@@ -5,6 +5,8 @@ interface ICinemaCreateReq {
     address: string;
     pincode: number;
   };
+  managers: string[];
+  security: string[];
 }
 
 export { ICinemaCreateReq };

@@ -16,5 +16,11 @@ const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const createCinema = (cinema) => __awaiter(void 0, void 0, void 0, function* () {
     yield cinema_schema_1.default.create(cinema);
 });
-exports.default = { createCinema };
+const getCinemaList = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const cinemas = yield cinema_schema_1.default.find({
+        managers: userId, // will now match correctly in the array
+    }).lean();
+    return cinemas;
+});
+exports.default = { createCinema, getCinemaList };
 //# sourceMappingURL=cinema.service.js.map

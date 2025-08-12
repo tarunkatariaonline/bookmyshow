@@ -12,6 +12,20 @@ const cinemaSchema = new mongoose_1.default.Schema({
         address: String,
         pincode: Number,
     },
+    managers: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+    ],
+    security: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+    ],
 });
 const Cinema = mongoose_1.default.model("Cinema", cinemaSchema);
 exports.default = Cinema;
