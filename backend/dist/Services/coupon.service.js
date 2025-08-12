@@ -73,9 +73,24 @@ const validateCoupon = (code, bookingAmount) => __awaiter(void 0, void 0, void 0
         finalAmount,
     };
 });
-const getActiveCoupons = () => __awaiter(void 0, void 0, void 0, function* () {
-    const coupons = yield coupon_schema_1.default.find({ isActive: true }).sort({ createdAt: -1 });
+const getCouponList = () => __awaiter(void 0, void 0, void 0, function* () {
+    const coupons = yield coupon_schema_1.default.find().sort({ createdAt: -1 });
     return coupons;
 });
-exports.default = { createCoupon, validateCoupon, getActiveCoupons };
+const toggleCouponStatus = (couponId, isActive) => __awaiter(void 0, void 0, void 0, function* () {
+    if (typeof isActive !== "boolean") {
+        throw new CustomError_1.default("Invalid status", 400);
+    }
+    const coupon = yield coupon_schema_1.default.findByIdAndUpdate(couponId, { isActive }, { new: true });
+    if (!coupon) {
+        throw new CustomError_1.default("Coupon not found", 404);
+    }
+    return coupon;
+});
+exports.default = {
+    createCoupon,
+    validateCoupon,
+    getCouponList,
+    toggleCouponStatus,
+};
 //# sourceMappingURL=coupon.service.js.map

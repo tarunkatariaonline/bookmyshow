@@ -51,13 +51,27 @@ const validateCoupon = (req, res) => __awaiter(void 0, void 0, void 0, function*
         },
     });
 });
-const getActiveCoupons = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const coupons = yield coupon_service_1.default.getActiveCoupons();
+const getCouponList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const coupons = yield coupon_service_1.default.getCouponList();
     res.status(200).json({
         message: "Active coupons fetched successfully",
         total: coupons.length,
         coupons,
     });
 });
-exports.default = { createCoupon, validateCoupon, getActiveCoupons };
+const toggleCouponStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { couponId } = req.params;
+    const { isActive } = req.body; // Boolean: true or false
+    const coupon = yield coupon_service_1.default.toggleCouponStatus(couponId, isActive);
+    res.status(200).json({
+        message: `Coupon ${isActive ? "activated" : "deactivated"} successfully`,
+        coupon,
+    });
+});
+exports.default = {
+    createCoupon,
+    validateCoupon,
+    getCouponList,
+    toggleCouponStatus,
+};
 //# sourceMappingURL=coupon.controller.js.map

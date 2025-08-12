@@ -9,6 +9,7 @@ const coupon_controller_1 = __importDefault(require("../Controllers/coupon.contr
 const router = express_1.default.Router();
 router.post("/create", (0, asyncHandler_1.default)(coupon_controller_1.default.createCoupon));
 router.get("/validate", (0, asyncHandler_1.default)(coupon_controller_1.default.validateCoupon));
-router.get("/list", (0, asyncHandler_1.default)(coupon_controller_1.default.getActiveCoupons));
+router.get("/list", (0, asyncHandler_1.default)(coupon_controller_1.default.getCouponList));
+router.patch("/:couponId/status", (0, asyncHandler_1.default)(coupon_controller_1.default.toggleCouponStatus));
 exports.default = router;
 //# sourceMappingURL=coupon.routes.js.map

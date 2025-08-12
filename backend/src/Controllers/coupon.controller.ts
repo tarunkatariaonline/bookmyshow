@@ -63,8 +63,8 @@ const validateCoupon = async (req: Request, res: Response) => {
   });
 };
 
-const getActiveCoupons = async (req: Request, res: Response) => {
-  const coupons = await couponService.getActiveCoupons();
+const getCouponList = async (req: Request, res: Response) => {
+  const coupons = await couponService.getCouponList();
 
   res.status(200).json({
     message: "Active coupons fetched successfully",
@@ -73,4 +73,20 @@ const getActiveCoupons = async (req: Request, res: Response) => {
   });
 };
 
-export default { createCoupon, validateCoupon, getActiveCoupons };
+const toggleCouponStatus = async (req: Request, res: Response) => {
+  const { couponId } = req.params;
+  const { isActive } = req.body; // Boolean: true or false
+
+  const coupon = await couponService.toggleCouponStatus(couponId, isActive);
+  res.status(200).json({
+    message: `Coupon ${isActive ? "activated" : "deactivated"} successfully`,
+    coupon,
+  });
+};
+
+export default {
+  createCoupon,
+  validateCoupon,
+  getCouponList,
+  toggleCouponStatus,
+};

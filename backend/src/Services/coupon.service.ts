@@ -86,10 +86,32 @@ const validateCoupon = async (code: string, bookingAmount: number) => {
   };
 };
 
-const getActiveCoupons = async () => {
-  const coupons = await Coupon.find({ isActive: true }).sort({ createdAt: -1 });
+const getCouponList = async () => {
+  const coupons = await Coupon.find().sort({ createdAt: -1 });
 
   return coupons;
 };
 
-export default { createCoupon, validateCoupon, getActiveCoupons };
+const toggleCouponStatus = async (couponId: string, isActive: boolean) => {
+  if (typeof isActive !== "boolean") {
+    throw new CustomError("Invalid status", 400);
+  }
+
+  const coupon = await Coupon.findByIdAndUpdate(
+    couponId,
+    { isActive },
+    { new: true }
+  );
+
+  if (!coupon) {
+    throw new CustomError("Coupon not found", 404);
+  }
+
+  return coupon;
+};
+export default {
+  createCoupon,
+  validateCoupon,
+  getCouponList,
+  toggleCouponStatus,
+};
