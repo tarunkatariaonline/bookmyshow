@@ -100,9 +100,18 @@ const getCinemasForMovieByDate = async (req: Request, res: Response) => {
   });
 };
 
+const getMoviesList = async (req: Request, res: Response) => {
+  const movies = await movieService.getMoviesList();
+  res.json({
+    movies: movies,
+    message: "Movies fetched successfully !",
+  });
+};
+
 export default {
   createMovie,
   getAvailableMoviesByCity,
   getUpcomingDatesForMovies,
   getCinemasForMovieByDate,
+  getMoviesList,
 };

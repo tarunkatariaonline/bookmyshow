@@ -14,4 +14,6 @@ router.get(
   "/available/:city/:movieId/:date/cinemas",
   asyncHandler(movie.getCinemasForMovieByDate)
 );
+
+router.get("/list", asyncHandler(movie.getMoviesList));
 export default router;

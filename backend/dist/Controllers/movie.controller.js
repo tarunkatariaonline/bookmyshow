@@ -76,10 +76,18 @@ const getCinemasForMovieByDate = (req, res) => __awaiter(void 0, void 0, void 0,
         cinemas: cinemaList,
     });
 });
+const getMoviesList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const movies = yield movie_service_1.default.getMoviesList();
+    res.json({
+        movies: movies,
+        message: "Movies fetched successfully !",
+    });
+});
 exports.default = {
     createMovie,
     getAvailableMoviesByCity,
     getUpcomingDatesForMovies,
     getCinemasForMovieByDate,
+    getMoviesList,
 };
 //# sourceMappingURL=movie.controller.js.map

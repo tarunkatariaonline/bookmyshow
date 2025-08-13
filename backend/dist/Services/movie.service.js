@@ -145,10 +145,15 @@ const getCinemasForMovieByDate = (city, movieId, date) => __awaiter(void 0, void
     const cinemaList = Array.from(cinemaMap.values());
     return cinemaList;
 });
+const getMoviesList = () => __awaiter(void 0, void 0, void 0, function* () {
+    const movies = yield movie_schema_1.default.find({}, "");
+    return movies;
+});
 exports.default = {
     createMovie,
     getAvailableMoviesByCity,
     getUpcomingDatesForMovies,
     getCinemasForMovieByDate,
+    getMoviesList,
 };
 //# sourceMappingURL=movie.service.js.map

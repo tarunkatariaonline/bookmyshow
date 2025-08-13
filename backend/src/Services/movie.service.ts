@@ -190,9 +190,15 @@ const getCinemasForMovieByDate = async (
   const cinemaList = Array.from(cinemaMap.values());
   return cinemaList;
 };
+
+const getMoviesList = async () => {
+  const movies = await Movie.find({}, "");
+  return movies;
+};
 export default {
   createMovie,
   getAvailableMoviesByCity,
   getUpcomingDatesForMovies,
   getCinemasForMovieByDate,
+  getMoviesList,
 };
