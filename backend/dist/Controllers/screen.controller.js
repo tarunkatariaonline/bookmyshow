@@ -28,5 +28,14 @@ const createCinemaScreen = (req, res) => __awaiter(void 0, void 0, void 0, funct
         message: "Screen added successfully",
     });
 });
-exports.default = { createCinemaScreen };
+const getScreenList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cinemaId } = req.params;
+    const screenList = yield screen_service_1.default.getScreenList(cinemaId);
+    res.status(200).json({
+        message: "Screen list Fetched Successfully !",
+        screenList,
+        count: screenList.length,
+    });
+});
+exports.default = { createCinemaScreen, getScreenList };
 //# sourceMappingURL=screen.controller.js.map

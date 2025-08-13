@@ -27,5 +27,9 @@ const createCinemaScreen = (_a) => __awaiter(void 0, [_a], void 0, function* ({ 
     });
     yield screen.save();
 });
-exports.default = { createCinemaScreen };
+const getScreenList = (cinemaId) => __awaiter(void 0, void 0, void 0, function* () {
+    const screens = yield screen_schema_1.default.find({ cinema: cinemaId }).lean();
+    return screens;
+});
+exports.default = { createCinemaScreen, getScreenList };
 //# sourceMappingURL=screen.service.js.map

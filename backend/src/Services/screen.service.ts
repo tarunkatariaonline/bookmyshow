@@ -23,4 +23,8 @@ const createCinemaScreen = async ({
   await screen.save();
 };
 
-export default { createCinemaScreen };
+const getScreenList = async (cinemaId: string) => {
+  const screens = await Screen.find({ cinema: cinemaId }).lean();
+  return screens;
+};
+export default { createCinemaScreen, getScreenList };

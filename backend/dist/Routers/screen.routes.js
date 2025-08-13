@@ -8,5 +8,6 @@ const asyncHandler_1 = __importDefault(require("../Utils/asyncHandler"));
 const screen_controller_1 = __importDefault(require("../Controllers/screen.controller"));
 const router = express_1.default.Router();
 router.post("/:cinemaId/create", (0, asyncHandler_1.default)(screen_controller_1.default.createCinemaScreen));
+router.get("/:cinemaId/list", (0, asyncHandler_1.default)(screen_controller_1.default.getScreenList));
 exports.default = router;
 //# sourceMappingURL=screen.routes.js.map

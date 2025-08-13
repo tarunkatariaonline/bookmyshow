@@ -23,4 +23,16 @@ const createCinemaScreen = async (req: Request, res: Response) => {
   });
 };
 
-export default { createCinemaScreen };
+const getScreenList = async (req: Request, res: Response) => {
+  const { cinemaId } = req.params;
+
+  const screenList = await screenService.getScreenList(cinemaId);
+
+  res.status(200).json({
+    message: "Screen list Fetched Successfully !",
+    screenList,
+    count: screenList.length,
+  });
+};
+
+export default { createCinemaScreen, getScreenList };
