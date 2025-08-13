@@ -8,6 +8,7 @@ import {
   ICreateShowReq,
   IGetShowsByCinemaMovieAndDateReq,
 } from "../Types/show.types";
+import { timeLog } from "console";
 
 const createShow = async ({
   movieId,
@@ -20,15 +21,18 @@ const createShow = async ({
   if (!screen) {
     throw new CustomError("Screen not found", 404);
   }
-  const show = new Show({
-    movie: movieId,
-    cinema: cinemaId,
-    screen: screenId,
-    date: date,
-    time: time,
-    seatLayout: screen.seatLayout,
-  });
-  await show.save();
+
+  for (let i = 0; i < time.length; i++) {
+    const show = new Show({
+      movie: movieId,
+      cinema: cinemaId,
+      screen: screenId,
+      date: date,
+      time: time[i],
+      seatLayout: screen.seatLayout,
+    });
+    await show.save();
+  }
 };
 
 const getShowById = async (showId: string) => {

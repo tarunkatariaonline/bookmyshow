@@ -3,7 +3,7 @@ interface ICreateShowReq {
   cinemaId: string;
   screenId: string;
   date: string;
-  time: string;
+  time: string[];
 }
 
 interface IGetShowsByCinemaMovieAndDateReq {

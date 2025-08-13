@@ -22,15 +22,17 @@ const createShow = (_a) => __awaiter(void 0, [_a], void 0, function* ({ movieId,
     if (!screen) {
         throw new CustomError_1.default("Screen not found", 404);
     }
-    const show = new show_schema_1.default({
-        movie: movieId,
-        cinema: cinemaId,
-        screen: screenId,
-        date: date,
-        time: time,
-        seatLayout: screen.seatLayout,
-    });
-    yield show.save();
+    for (let i = 0; i < time.length; i++) {
+        const show = new show_schema_1.default({
+            movie: movieId,
+            cinema: cinemaId,
+            screen: screenId,
+            date: date,
+            time: time[i],
+            seatLayout: screen.seatLayout,
+        });
+        yield show.save();
+    }
 });
 const getShowById = (showId) => __awaiter(void 0, void 0, void 0, function* () {
     const show = yield show_schema_1.default.findById(showId)
