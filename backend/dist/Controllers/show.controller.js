@@ -54,5 +54,18 @@ const getShowsByCinemaMovieAndDate = (req, res) => __awaiter(void 0, void 0, voi
         shows: showList,
     });
 });
-exports.default = { createShow, getShowById, getShowsByCinemaMovieAndDate };
+const createBulkShows = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { date, movieId } = req.body;
+    const user_id = "67c2d6b2093c1a7f19cac055"; //req.user._id ;
+    yield show_service_1.default.createBulkShows({ date, movieId, user_id });
+    res.json({
+        message: "Bulk shows created successfully",
+    });
+});
+exports.default = {
+    createShow,
+    getShowById,
+    getShowsByCinemaMovieAndDate,
+    createBulkShows,
+};
 //# sourceMappingURL=show.controller.js.map

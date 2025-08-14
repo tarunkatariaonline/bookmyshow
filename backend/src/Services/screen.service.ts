@@ -8,6 +8,7 @@ const createCinemaScreen = async ({
   name,
   cinemaId,
   seatLayout,
+  timings,
 }: ICreateCinemaScreenReq) => {
   const cinema = await Cinema.findById(cinemaId);
   if (!cinema) {
@@ -16,6 +17,7 @@ const createCinemaScreen = async ({
 
   const screen = new Screen({
     name,
+    timings,
     seatLayout,
     cinema: cinemaId, // connect screen to cinema
   });

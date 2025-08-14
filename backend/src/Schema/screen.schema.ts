@@ -22,6 +22,7 @@ export const seatCategorySchema = new Schema(
 
 const screenSchema = new mongoose.Schema({
   name: String,
+  timings: [String],
   seatLayout: [seatCategorySchema], // ← it's now an array of objects
   cinema: {
     type: mongoose.Schema.Types.ObjectId,

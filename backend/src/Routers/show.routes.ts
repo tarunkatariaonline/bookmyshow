@@ -7,6 +7,7 @@ router.post(
   "/:movieId/:cinemaId/:screenId/create",
   asyncHandler(show.createShow)
 );
+router.post("/bulk/create", asyncHandler(show.createBulkShows));
 router.get("/:showId", asyncHandler(show.getShowById));
 router.get(
   "/:city/:cinemaId/:movieId/:date",

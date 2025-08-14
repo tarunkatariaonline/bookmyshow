@@ -59,4 +59,18 @@ const getShowsByCinemaMovieAndDate = async (req: Request, res: Response) => {
   });
 };
 
-export default { createShow, getShowById, getShowsByCinemaMovieAndDate };
+const createBulkShows = async (req: Request, res: Response) => {
+  const { date, movieId } = req.body;
+  const user_id = "67c2d6b2093c1a7f19cac055"; //req.user._id ;
+  await showService.createBulkShows({ date, movieId, user_id });
+  res.json({
+    message: "Bulk shows created successfully",
+  });
+};
+
+export default {
+  createShow,
+  getShowById,
+  getShowsByCinemaMovieAndDate,
+  createBulkShows,
+};

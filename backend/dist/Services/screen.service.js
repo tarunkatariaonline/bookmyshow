@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const CustomError_1 = __importDefault(require("../Utils/CustomError"));
 const screen_schema_1 = __importDefault(require("../Schema/screen.schema"));
-const createCinemaScreen = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, cinemaId, seatLayout, }) {
+const createCinemaScreen = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, cinemaId, seatLayout, timings, }) {
     const cinema = yield cinema_schema_1.default.findById(cinemaId);
     if (!cinema) {
         throw new CustomError_1.default("Cinema not found!", 404);
     }
     const screen = new screen_schema_1.default({
         name,
+        timings,
         seatLayout,
         cinema: cinemaId, // connect screen to cinema
     });

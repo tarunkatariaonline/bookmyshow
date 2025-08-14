@@ -9,6 +9,7 @@ import {
   IGetShowsByCinemaMovieAndDateReq,
 } from "../Types/show.types";
 import { timeLog } from "console";
+import Cinema from "../Schema/cinema.schema";
 
 const createShow = async ({
   movieId,
@@ -97,4 +98,22 @@ const getShowsByCinemaMovieAndDate = async ({
     showList,
   };
 };
-export default { createShow, getShowById, getShowsByCinemaMovieAndDate };
+
+const createBulkShows = async ({ date, movieId, user_id }) => {
+  const cinemas = await Cinema.find({ managers: user_id });
+  for (let i = 0; i < cinemas.length; i++) {
+    const cinemaId = cinemas[i].id;
+    const screens = await Screen.find({ cinema: cinemaId });
+    for (let i = 0; i < screens.length; i++) {
+      const screenId = screens[i].id;
+      const time = ["06:15 PM", "09:15 PM", "12:15 PM", "3:15 PM"];
+      await createShow({ movieId, time, cinemaId, screenId, date });
+    }
+  }
+};
+export default {
+  createShow,
+  getShowById,
+  getShowsByCinemaMovieAndDate,
+  createBulkShows,
+};

@@ -17,6 +17,7 @@ const CustomError_1 = __importDefault(require("../Utils/CustomError"));
 const show_schema_1 = __importDefault(require("../Schema/show.schema"));
 const movie_schema_1 = __importDefault(require("../Schema/movie.schema"));
 const dateUtils_1 = require("../Utils/dateUtils");
+const cinema_schema_1 = __importDefault(require("../Schema/cinema.schema"));
 const createShow = (_a) => __awaiter(void 0, [_a], void 0, function* ({ movieId, cinemaId, screenId, date, time, }) {
     const screen = yield screen_schema_1.default.findById(screenId);
     if (!screen) {
@@ -80,5 +81,22 @@ const getShowsByCinemaMovieAndDate = (_a) => __awaiter(void 0, [_a], void 0, fun
         showList,
     };
 });
-exports.default = { createShow, getShowById, getShowsByCinemaMovieAndDate };
+const createBulkShows = (_a) => __awaiter(void 0, [_a], void 0, function* ({ date, movieId, user_id }) {
+    const cinemas = yield cinema_schema_1.default.find({ managers: user_id });
+    for (let i = 0; i < cinemas.length; i++) {
+        const cinemaId = cinemas[i].id;
+        const screens = yield screen_schema_1.default.find({ cinema: cinemaId });
+        for (let i = 0; i < screens.length; i++) {
+            const screenId = screens[i].id;
+            const time = ["06:15 PM", "09:15 PM", "12:15 PM", "3:15 PM"];
+            yield createShow({ movieId, time, cinemaId, screenId, date });
+        }
+    }
+});
+exports.default = {
+    createShow,
+    getShowById,
+    getShowsByCinemaMovieAndDate,
+    createBulkShows,
+};
 //# sourceMappingURL=show.service.js.map

@@ -6,7 +6,7 @@ import screenService from "../Services/screen.service";
 
 const createCinemaScreen = async (req: Request, res: Response) => {
   const cinemaId = req.params.cinemaId;
-  const { name, seatLayout } = req.body;
+  const { name, seatLayout, timings } = req.body;
 
   if (!cinemaId) {
     throw new CustomError("Cinema ID is required", 400);
@@ -16,7 +16,12 @@ const createCinemaScreen = async (req: Request, res: Response) => {
     throw new CustomError("Screen name and seat layout are required", 400);
   }
 
-  await screenService.createCinemaScreen({ name, cinemaId, seatLayout });
+  await screenService.createCinemaScreen({
+    name,
+    cinemaId,
+    seatLayout,
+    timings,
+  });
 
   res.status(201).json({
     message: "Screen added successfully",
