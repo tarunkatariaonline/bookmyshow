@@ -9,7 +9,7 @@ type SafeAreaViewProps = {
 const SafeAreaView = ({ children, className }: SafeAreaViewProps) => {
     const isLight = useColorScheme() === "light" ? true : false
     return (
-        <RNSafeAreaView className={cn(isLight ? "bg-white" : "bg-black", "flex-1", className)}>
+        <RNSafeAreaView className={cn(isLight ? "bg-white" :"bg-gray-900", "flex-1", className)}>
             {children}
         </RNSafeAreaView>
     )
