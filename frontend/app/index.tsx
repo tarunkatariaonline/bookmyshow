@@ -10,7 +10,7 @@ export default function Index() {
     const isUser = true;
     console.log("User = ",isUser)
     const timer = setTimeout(()=>{
-     router.replace('/(auth)/SignIn')
+     router.replace('/(tabs)')
     },3000)
    return()=>{
       clearTimeout(timer)
