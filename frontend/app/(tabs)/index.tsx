@@ -1,16 +1,10 @@
-import SafeAreaView from '@/Components/SafeAreaView'
-import Text from '@/Components/Text'
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import SafeAreaView from "@/Components/SafeAreaView";
+import Text from "@/Components/Text";
 
-const index = () => {
+export default function index() {
   return (
     <SafeAreaView>
-       <Text>hello world from tab index</Text>
+      <Text>index</Text>
     </SafeAreaView>
-  )
+  );
 }
-
-export default index
-
-const styles = StyleSheet.create({})
