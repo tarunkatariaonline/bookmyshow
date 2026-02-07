@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { store } from "../store/store";
 import {
   QueryClient,
   QueryClientProvider as Provider,
