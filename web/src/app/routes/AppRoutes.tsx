@@ -10,7 +10,7 @@ const AppRoutes = () => {
       <Router>
         <Header />
         <Routes>
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute roles={["user"]} />}>
             <Route path="/" element={<UserLayout />}>
               <Route index element={<Home />} />
             </Route>
