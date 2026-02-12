@@ -1,25 +1,31 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Login from "../../pages/auth/Login";
-import Header from "../../shared/components/Header";
-import UserLayout from "../layouts/UserLayout";
-import Home from "../../pages/user/Home";
-import ProtectedRoute from "./guards/ProtectedRoute";
-const AppRoutes = () => {
+import Login from "@/pages/auth/Login";
+import Signup from "@/pages/auth/Signup";
+import UserLayout from "@/app/layouts/UserLayout";
+import Home from "@/pages/user/Home";
+import ProtectedRoute from "@/app/routes/guards/ProtectedRoute";
+
+const AppContent = () => {
   return (
     <>
-      <Router>
-        <Header />
-        <Routes>
-          <Route element={<ProtectedRoute roles={["user"]} />}>
-            <Route path="/" element={<UserLayout />}>
-              <Route index element={<Home />} />
-            </Route>
+      <Routes>
+        <Route element={<ProtectedRoute roles={["user"]} />}>
+          <Route path="/" element={<UserLayout />}>
+            <Route index element={<Home />} />
           </Route>
-          {/* normal routes */}
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </Router>
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </>
+  );
+};
+
+const AppRoutes = () => {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
+import type { RootState } from "@/app/store/store";
 import { Outlet, Navigate } from "react-router-dom";
 interface protectedRouteProps {
   roles: string[];
@@ -16,6 +16,10 @@ const ProtectedRoute = ({ roles }: protectedRouteProps) => {
   }
   if (auth.status === "authenticated" && user && roles.includes(user.role)) {
     return <Outlet />;
+  }
+
+  if (auth.status === "authenticated" && user && !roles.includes(user.role)) {
+    return <div>now allowed..</div>;
   }
 };
 

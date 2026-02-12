@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+/*
+ * Theme: change these variables to switch the whole website theme at once.
+ * Tailwind generates: bg-*, text-*, border-*, ring-*, etc. from --color-*.
+ */
+@theme {
+  --font-sans: "Outfit", system-ui, sans-serif;
+
+  /* Page & surfaces */
+  --color-background: #0c0e12;
+  --color-foreground: #fafafa;
+
+  /* Primary (CTAs, links, accents) */
+  --color-primary: #f59e0b;
+  --color-primary-hover: #fbbf24;
+  --color-primary-foreground: #000000;
+  --color-primary-muted: rgba(245, 158, 11, 0.15);
+  --color-primary-border: rgba(245, 158, 11, 0.3);
+  --color-primary-glow: rgba(245, 158, 11, 0.08);
+
+  /* Muted (cards, secondary text) */
+  --color-muted: rgba(255, 255, 255, 0.05);
+  --color-muted-foreground: #71717a;
+  --color-muted-foreground-subtle: #a1a1aa;
+
+  /* Borders & input */
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(255, 255, 255, 0.2);
+  --color-input: rgba(255, 255, 255, 0.05);
+  --color-input-placeholder: #52525b;
+
+  /* Focus ring */
+  --color-ring: rgba(245, 158, 11, 0.5);
+  --color-ring-offset: #0c0e12;
+
+  /* Destructive (errors) */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fecaca;
+}
