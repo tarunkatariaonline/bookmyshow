@@ -1,6 +1,7 @@
-import express from "express";
+import express, { Request } from "express";
 import "./Config/db.config";
 import user from "./Routers/user.routes";
+import cors from "cors";
 import movie from "./Routers/movie.routes";
 import cinema from "./Routers/cinema.routes";
 import screen from "./Routers/screen.routes";
@@ -12,11 +13,16 @@ const app = express();
 import dotenv from "dotenv";
 import errorHandler from "./Middlewares/errorHandler.middleware";
 dotenv.config();
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const port = 3000;
-
+app.get("/", (req, res) => {
+  res.json({
+    message: "i am working",
+  });
+});
 app.use("/api/v1/user", user);
 app.use("/api/v1/movies", movie);
 app.use("/api/v1/cinemas", cinema);

@@ -13,10 +13,17 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
-  const handleGoogleSignIn = async () => {};
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    // TODO: wire to Google Auth
+    await new Promise((r) => setTimeout(r, 800));
+    setIsGoogleLoading(false);
+    toast.success("Google Sign In not implemented yet");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!email.trim()) {
       toast.error("Please enter your email");
       return;
