@@ -4,10 +4,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export type AuthStatus = "idle" | "loading" | "authenticated" | "error";
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
-  role: string;
+  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface AuthState {
@@ -18,7 +20,7 @@ interface AuthState {
 // ---- Initial State ----
 const initialState: AuthState = {
   user: null,
-  status: "idle",
+  status: "loading",
 };
 
 // ---- Slice ----

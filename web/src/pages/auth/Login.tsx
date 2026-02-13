@@ -5,13 +5,14 @@ import toast from "react-hot-toast";
 import { Button, Input } from "@/shared/components/ui";
 import { cn } from "@/shared/utils";
 import googleIcon from "@/assets/google.svg";
+import { useLoginMutation } from "@/features/auth/hooks/useAuthMutations";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const { mutate: login, isPending: isLoading } = useLoginMutation();
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
@@ -21,7 +22,7 @@ const Login = () => {
     toast.success("Google Sign In not implemented yet");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email.trim()) {
@@ -32,11 +33,8 @@ const Login = () => {
       toast.error("Please enter your password");
       return;
     }
-    setIsLoading(true);
-    // TODO: wire to auth API
-    await new Promise((r) => setTimeout(r, 800));
-    setIsLoading(false);
-    toast.success("Welcome back!");
+    
+    login({ email, password });
   };
 
   return (

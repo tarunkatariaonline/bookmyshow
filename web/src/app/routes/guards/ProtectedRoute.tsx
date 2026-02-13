@@ -14,11 +14,11 @@ const ProtectedRoute = ({ roles }: protectedRouteProps) => {
   if (auth.status === "idle") {
     return <Navigate to="/login" replace />;
   }
-  if (auth.status === "authenticated" && user && roles.includes(user.role)) {
+  if (auth.status === "authenticated" && user && roles.includes(user.role as string)) {
     return <Outlet />;
   }
 
-  if (auth.status === "authenticated" && user && !roles.includes(user.role)) {
+  if (auth.status === "authenticated" && user && !roles.includes(user.role as string)) {
     return <div>now allowed..</div>;
   }
 };

@@ -10,7 +10,7 @@ const AppContent = () => {
   return (
     <>
       <Routes>
-        <Route element={<ProtectedRoute roles={["user"]} />}>
+        <Route element={<ProtectedRoute roles={["User"]} />}>
           <Route path="/" element={<UserLayout />}>
             <Route index element={<Home />} />
           </Route>
@@ -23,7 +23,10 @@ const AppContent = () => {
   );
 };
 
+import { useGetProfile } from "@/features/auth/hooks/useAuthQueries";
+
 const AppRoutes = () => {
+  useGetProfile();
   return (
     <Router>
       <AppContent />

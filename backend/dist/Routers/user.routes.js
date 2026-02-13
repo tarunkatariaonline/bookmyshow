@@ -10,7 +10,7 @@ const user_controller_1 = __importDefault(require("../Controllers/user.controlle
 const role_constants_1 = __importDefault(require("../Constants/role.constants"));
 const router = express_1.default.Router();
 router.post("/register", (0, asyncHandler_1.default)(user_controller_1.default.register));
-router.get("/login", (0, asyncHandler_1.default)(user_controller_1.default.login));
+router.post("/login", (0, asyncHandler_1.default)(user_controller_1.default.login));
 router.get("/profile", (0, asyncHandler_1.default)((0, auth_middleware_1.default)(role_constants_1.default.ALL)), (0, asyncHandler_1.default)(user_controller_1.default.profile));
 router.put("/changepassword", (0, asyncHandler_1.default)((0, auth_middleware_1.default)(role_constants_1.default.ALL)), (0, asyncHandler_1.default)(user_controller_1.default.changePassword));
 router.put("/updateprofile", (0, asyncHandler_1.default)((0, auth_middleware_1.default)(role_constants_1.default.ALL)), (0, asyncHandler_1.default)(user_controller_1.default.updateProfile));

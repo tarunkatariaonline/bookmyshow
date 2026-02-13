@@ -6,21 +6,21 @@ import ROLE from "../Constants/role.constants";
 const router = express.Router();
 
 router.post("/register", asyncHandler(user.register));
-router.get("/login", asyncHandler(user.login));
+router.post("/login", asyncHandler(user.login));
 router.get(
   "/profile",
   asyncHandler(auth(ROLE.ALL)),
-  asyncHandler(user.profile)
+  asyncHandler(user.profile),
 );
 router.put(
   "/changepassword",
   asyncHandler(auth(ROLE.ALL)),
-  asyncHandler(user.changePassword)
+  asyncHandler(user.changePassword),
 );
 router.put(
   "/updateprofile",
   asyncHandler(auth(ROLE.ALL)),
-  asyncHandler(user.updateProfile)
+  asyncHandler(user.updateProfile),
 );
 
 router.get("/forgetpassword", asyncHandler(user.forgetPasswordMailSend));

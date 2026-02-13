@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff, Ticket, User, Phone } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Ticket, User } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button, Input } from "@/shared/components/ui";
 import { cn } from "@/shared/utils";
 import googleIcon from "@/assets/google.svg";
+import { useRegisterMutation } from "@/features/auth/hooks/useAuthMutations";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  
+  const { mutate: register, isPending: isLoading } = useRegisterMutation();
 
   const handleGoogleSignUp = async () => {
     setIsGoogleLoading(true);
@@ -25,7 +26,7 @@ const Signup = () => {
     toast.success("Google sign up coming soon!");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       toast.error("Please enter your name");
@@ -33,10 +34,6 @@ const Signup = () => {
     }
     if (!email.trim()) {
       toast.error("Please enter your email");
-      return;
-    }
-    if (!phone.trim()) {
-      toast.error("Please enter your phone number");
       return;
     }
     if (!password) {
@@ -51,11 +48,8 @@ const Signup = () => {
       toast.error("Passwords do not match");
       return;
     }
-    setIsLoading(true);
-    // TODO: wire to auth API
-    await new Promise((r) => setTimeout(r, 800));
-    setIsLoading(false);
-    toast.success("Account created! Please sign in.");
+    
+    register({ name, email, password, confirmPassword });
   };
 
   return (
@@ -111,17 +105,6 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               leftIcon={<Mail />}
-            />
-
-            <Input
-              id="phone"
-              type="tel"
-              label="Phone number"
-              placeholder="+91 98765 43210"
-              autoComplete="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              leftIcon={<Phone />}
             />
 
             <Input
@@ -215,7 +198,7 @@ const Signup = () => {
                     alt="Google"
                     className="w-5 h-5"
                     loading="lazy"
-                  />
+                    />
                 ) : undefined
               }
               onClick={handleGoogleSignUp}

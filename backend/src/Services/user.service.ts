@@ -51,8 +51,8 @@ const login = async ({ email, password }: ILoginReq): Promise<any> => {
     throw new CustomError("Invalid password !", 401);
   }
 
-  user.password = null;
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  user.password = null as any;
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!);
   const data = {
     user,
     token,
@@ -73,7 +73,7 @@ const updateProfile = async ({
     },
     {
       new: true,
-    }
+    },
   ).select("-password");
   const data = {
     user,
